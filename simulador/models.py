@@ -33,7 +33,9 @@ class Contribuinte(models.Model):
 
     data_simulacao = models.DateTimeField(null=True, blank=True)
     beneficio_regra_atual = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    beneficio_media_oitenta_por_cento = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     beneficio_media_todas_contribuicoes = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    media_oitenta_por_cento_regime_proprio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     beneficio_inss = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, default=5645.80)
     beneficio_especial = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     economia = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

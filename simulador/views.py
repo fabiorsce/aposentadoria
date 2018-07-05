@@ -7,6 +7,7 @@ import io
 from django.contrib import messages
 from simulador.forms import ImportarContribuicaoForm, ImportarIpcaForm
 from django.db.models import Avg
+from datetime import datetime
 
 
 def importar_ipca(request):
@@ -111,12 +112,21 @@ def simular_beneficios(request, contribuinte_id):
 								).order_by('-salario_atualizado')[0:qtd_oitenta_por_cento]
 	media = melhores_contribuicoes.aggregate(Avg('salario_atualizado'))['salario_atualizado__avg']
 
-	contribuinte.beneficio_regra_atual = media
+	if contribuinte.data_ingresso_servico_publico.isoformat() < datetime(2004,1,1).isoformat():
+		ultima_contribuicao = Contribuicao.objects.filter(contribuinte=contribuinte).order_by('-ano_mes')[0]
+		contribuinte.beneficio_regra_atual = ultima_contribuicao.salario_atualizado
+	else:
+		contribuinte.beneficio_regra_atual = media
+
+	
 	if not contribuinte.beneficio_inss:
 		contribuinte.beneficio_inss = 5645.80
 
 	lista_regime_proprio = [Contribuicao.UNIAO, Contribuicao.ESTADO, Contribuicao.MUNICIPIO]
 	ano_mes_ing_ser_pub = contribuinte.data_ingresso_servico_publico.isoformat()[0:7].replace('-','')
+
+
+
 
 	# Calculo do beneficio especial
 	qtd_total_contrib_reg_proprio = Contribuicao.objects.filter(
@@ -148,8 +158,11 @@ def simular_beneficios(request, contribuinte_id):
 	economia = (ultima_contribuicao.salario_atualizado * Decimal(0.11)) - (contribuinte.beneficio_inss * Decimal(0.11))
 	contribuinte.economia = economia
 
+	contribuinte.data_simulacao = datetime.today()
+
 	contribuinte.save()
 
+	messages.success(request, 'Cálculo realizado com sucesso.')
 	return redirect('contribuinte')
 
 
