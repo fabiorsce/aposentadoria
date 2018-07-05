@@ -20,6 +20,7 @@ from simulador import views
 urlpatterns = [
     path('contribuinte/', views.contribuinte, name='contribuinte'),
     path('contribuinte_detalhe/<int:contribuinte_id>/', views.contribuinte_detalhe, name='contribuinte_detalhe'),
+    path('excluir_contribuicoes/<int:contribuinte_id>/', views.excluir_contribuicoes, name='excluir_contribuicoes'),
 	path('ipca/', views.ipca, name='ipca'),
     path('importar_ipca/', views.importar_ipca, name='importar_ipca'),
     path('simular_beneficios/<int:contribuinte_id>/', views.simular_beneficios, name='simular_beneficios'),

@@ -7,6 +7,11 @@
 	    $('#tabela_contribuicoes').DataTable();
 	} );
 </script>
+<style type="text/css">
+    .table-condensed td {
+        padding: 0.1rem;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -17,12 +22,70 @@
       </div>
       <div class="card-body">
         <div class="row">
-            <form class="form-inline" action="/simulador/contribuinte_detalhe/{{contribuinte.id}}/" 
+            <div class="col-md-6">
+                <div class="row">
+                    <p>Informe o arquivo CSV com os seguintes campos: ano_mes, salario_contribuicao, tipo, decimo_terceiro. </p>        
+                </div>
+                <div class="row">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Formato</th>
+                                <th>Exemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ano_mes</td>
+                                <td>YYYYMM</td>
+                                <td>200611</td>
+                            </tr>
+                            <tr>
+                                <td>salario_contribuicao</td>
+                                <td>Número</td>
+                                <td>10430,58</td>
+                            </tr>
+                            <tr>
+                                <td>tipo</td>
+                                <td>G, M, E ou U</td>
+                                <td>
+                                    <div class="row">G = Contribuição para o regime geral de previdencia</div>
+                                    <div class="row">M = Contribuição para o regime próprio municipal</div>
+                                    <ul>
+                                        <li>G = Contribuição para o regime geral de previdencia</li>
+                                        <li>M = Contribuição para o regime próprio municipal</li>
+                                        <li>E = Contribuição para o regime próprio estadual</li>
+                                        <li>U = Contribuição para o regime próprio da União</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>decimo_terceiro</td>
+                                <td>S ou N</td>
+                                <td>
+                                    <ul>
+                                        <li>S = Contribuição foi proveniente décimo terceiro salário</li>
+                                        <li>N = Contribuição não foi proveniente décimo terceiro salário</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <form class="form-inline" action="/simulador/contribuinte_detalhe/{{contribuinte.id}}/" 
                 method="post" enctype="multipart/form-data" class="form-inline">
-                {% csrf_token %}
-                {{ form|bootstrap_inline }}
-                <button type="submit" class="btn btn-info">Importar</button>
-            </form>
+                    {% csrf_token %}
+                    {{ form|bootstrap_inline }}
+                    <button type="submit" class="btn btn-info">Importar</button>
+                </form>
+                
+            </div>
+        </div>
+        <div class="row">
+            
         </div>
       </div>
     </div>

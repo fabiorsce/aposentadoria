@@ -22,4 +22,5 @@ class ContribuicaoResource(resources.ModelResource):
 class ContribuicaoAdmin(ImportExportModelAdmin):
 	list_display = ('contribuinte', 'ano_mes','valor_contribuicao', 'salario_contribuicao', 'tipo', 'decimo_terceiro', 'salario_atualizado')
 	resource_class = ContribuicaoResource
+	list_filter = ['contribuinte', 'decimo_terceiro']
 admin.site.register(Contribuicao, ContribuicaoAdmin)    

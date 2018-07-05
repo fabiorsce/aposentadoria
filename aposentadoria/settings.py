@@ -132,6 +132,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
-DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap.html'
+STATIC_ROOT = '/'.join((BASE_DIR, 'static/'))

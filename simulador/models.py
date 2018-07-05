@@ -68,6 +68,12 @@ class Contribuicao(models.Model):
     tipo = models.CharField(max_length=1, choices=TIPOS, default=UNIAO, null=False, blank=False)
     decimo_terceiro = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name_plural = "contribuições"
+
+
     def __str__(self):
         return self.ano_mes
+
+
 

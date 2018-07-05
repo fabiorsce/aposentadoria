@@ -88,6 +88,11 @@ def simular_beneficios(request, contribuinte_id):
 	ipcas = Ipca.objects.all()
 	contribuinte = Contribuinte.objects.get(id=contribuinte_id)
 
+	if Contribuicao.objects.filter(contribuinte=contribuinte).count() == 0:
+		messages.warning(request, 'Contribuinte não possui contribuições.')
+		return redirect('contribuinte')
+
+
 	for c in Contribuicao.objects.filter(contribuinte=contribuinte):
 		ipca = ipcas.filter(ano_mes=c.ano_mes)[0]
 		c.salario_atualizado = c.salario_contribuicao * ipca.acumulado
@@ -96,7 +101,8 @@ def simular_beneficios(request, contribuinte_id):
 	media_todas_contribuicoes = Contribuicao.objects.filter(
 			contribuinte=contribuinte).aggregate(Avg('salario_atualizado'))['salario_atualizado__avg']
 
-	contribuinte.beneficio_media_todas_contribuicoes = Decimal(media_todas_contribuicoes)
+	if media_todas_contribuicoes:
+		contribuinte.beneficio_media_todas_contribuicoes = Decimal(media_todas_contribuicoes)
 
 	# Calcula a média das 80% maiores cotribuicoes
 	numero_contribuicoes = Contribuicao.objects.filter(contribuinte=contribuinte).count()
@@ -233,3 +239,19 @@ def contribuinte_detalhe(request, contribuinte_id):
 			'contribuicoes': contribuicoes,
 			'form': form
 			})	
+
+def excluir_contribuicoes(request, contribuinte_id):
+
+	c = Contribuinte.objects.get(id=contribuinte_id)
+	c.data_simulacao = None
+	c.beneficio_regra_atual = None
+	c.beneficio_media_todas_contribuicoes = None
+	c.beneficio_especial = None
+	c.economia = None
+	c.save()
+	Contribuicao.objects.filter(contribuinte=c).delete()
+
+	messages.success(request, 'Contribuições foram excluidas e os calculos foram zerados.')
+
+	contribuintes = Contribuinte.objects.filter()
+	return render(request, 'contribuinte.html', {'contribuintes': contribuintes })	

@@ -16,16 +16,15 @@
             <tr>
                 <th>Nome</th>
                 <th>Sexo</th>
-                <th>Data Nascimento</th>
-                <th>Data Ingresso Sev. Pub.</th>
+                <th>Nascimento</th>
+                <th>Ingresso Sev. Pub.</th>
                 <th>Data da simulação</th>
-                <th>Benefício pela regra atual</th>
-                <th>Benefício pela média de todas as contribuições</th>
+                <th>Ben. regra atual</th>
+                <th>Ben. media 100% contrib.</th>
                 <th>Benefício INSS</th>
                 <th>Benefício especial</th>
                 <th>Economia</th>
-                <th>Importar Contribuições</th>
-                <th>Simular</th>
+                <th>Açoes</th>
             </tr>
         </thead>
         <tbody>
@@ -41,8 +40,17 @@
                 <td>{{c.beneficio_inss}}</td>
                 <td>{{c.beneficio_especial}}</td>
                 <td>{{c.economia}}</td>
-                <td><a href="/simulador/contribuinte_detalhe/{{c.id}}/">S</a></td>
-                <td><a href="/simulador/simular_beneficios/{{c.id}}/">S</a></td>
+                <td class="text-center">
+                    <a href="/simulador/contribuinte_detalhe/{{c.id}}/">
+                        <span class="oi oi-layers" data-toggle="tooltip" data-placement="bottom" title="Importar contribuições"></span>
+                    </a>
+                    <a href="/simulador/simular_beneficios/{{c.id}}/">
+                        <span class="oi oi-calculator" data-toggle="tooltip" data-placement="bottom" title="Simular cálculo"></span>
+                    </a>
+                    <a href="/simulador/excluir_contribuicoes/{{c.id}}/">
+                        <span class="oi oi-x" data-toggle="tooltip" data-placement="bottom" title="Excluir contribuições"></span>
+                    </a>
+                </td>
             </tr>
             {% endfor %}
 
