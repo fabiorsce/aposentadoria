@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block extrahead %}
+<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#tabela_contribuicoes').DataTable();
+	} );
+</script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card mt-1">
+      <div class="card-header bg-info text-light">
+        Importar Contribuições
+      </div>
+      <div class="card-body">
+        <div class="row">
+            <form class="form-inline" action="/simulador/contribuinte_detalhe/{{contribuinte.id}}/" 
+                method="post" enctype="multipart/form-data" class="form-inline">
+                {% csrf_token %}
+                {{ form|bootstrap_inline }}
+                <button type="submit" class="btn btn-info">Importar</button>
+            </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card mt-1">
+        <div class="card-header bg-primary text-light text-center">
+            Contribuiçoes
+        </div>
+        <div class="card-body table-responsive">
+            <table id="tabela_contribuicoes" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ano/Mes</th>
+                        <th>Valor da contribuição</th>
+                        <th>Salário de contribuição</th>
+                        <th>Salário corrigido</th>
+                        <th>Tipo</th>
+                        <th>Decimo terceiro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in contribuicoes %}
+                    <tr>
+                        <td>{{c.ano_mes}}</td>
+                        <td>{{c.valor_contribuicao}}</td>
+                        <td>{{c.salario_contribuicao}}</td>
+                        <td>{{c.salario_atualizado}}</td>
+                        <td>{{c.tipo}}</td>
+                        <td>{{c.decimo_terceiro}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+	
+
+{% endblock %}

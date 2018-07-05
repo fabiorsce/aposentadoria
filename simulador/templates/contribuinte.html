@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block extrahead %}
+<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#tabela_contribuintes').DataTable();
+	} );
+</script>
+{% endblock %}
+
+{% block content %}
+
+	<table id="tabela_contribuintes" class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Sexo</th>
+                <th>Data Nascimento</th>
+                <th>Data Ingresso Sev. Pub.</th>
+                <th>Data da simulação</th>
+                <th>Benefício pela regra atual</th>
+                <th>Benefício pela média de todas as contribuições</th>
+                <th>Benefício INSS</th>
+                <th>Benefício especial</th>
+                <th>Economia</th>
+                <th>Importar Contribuições</th>
+                <th>Simular</th>
+            </tr>
+        </thead>
+        <tbody>
+        	{% for c in contribuintes %}
+            <tr>
+                <td>{{c.nome}}</td>
+                <td>{{c.sexo}}</td>
+                <td>{{c.data_nascimento|date:"d/m/Y"}}</td>
+                <td>{{c.data_ingresso_servico_publico|date:"d/m/Y"}}</td>
+                <td>{{c.data_simulacao|date:"d/m/Y H:i"}}</td>
+                <td>{{c.beneficio_regra_atual}}</td>
+                <td>{{c.beneficio_media_todas_contribuicoes}}</td>
+                <td>{{c.beneficio_inss}}</td>
+                <td>{{c.beneficio_especial}}</td>
+                <td>{{c.economia}}</td>
+                <td><a href="/simulador/contribuinte_detalhe/{{c.id}}/">S</a></td>
+                <td><a href="/simulador/simular_beneficios/{{c.id}}/">S</a></td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
